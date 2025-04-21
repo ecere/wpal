@@ -1,0 +1,48 @@
+{
+   "Version" : 0.2,
+   "ModuleName" : "wpalAndGfx",
+   "Options" : {
+      "Warnings" : "All",
+      "TargetType" : "Executable",
+      "TargetFileName" : "wpalAndGfx",
+      "Libraries" : [
+         "ecrt"
+      ]
+   },
+   "Configurations" : [
+      {
+         "Name" : "Debug",
+         "Options" : {
+            "Debug" : true,
+            "Optimization" : "None",
+            "PreprocessorDefinitions" : [
+               "_DEBUG"
+            ],
+            "FastMath" : false
+         }
+      },
+      {
+         "Name" : "Release",
+         "Options" : {
+            "Debug" : false,
+            "Optimization" : "Speed",
+            "FastMath" : true
+         }
+      }
+   ],
+   "Files" : [
+      "wpalAndGfx.ec",
+      {
+         "FileName" : "test3DGfx.ec",
+         "Options" : {
+            "ExcludeFromBuild" : true
+         }
+      },
+      "cube2.ec"
+   ],
+   "ResourcesPath" : "",
+   "Resources" : [
+      "fractal3.jpg",
+      "knot.png"
+   ]
+}
