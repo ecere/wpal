@@ -1600,20 +1600,22 @@ class XInterface : Interface
       xMutex.Release();
       xSemaphore.Release();
 
-      timerThread.Wait();
+      if(timerThread) timerThread.Wait();
       delete timerThread;
       hiResTimer.Stop();
 
-      XFreeCursor(xGlobalDisplay, systemCursors[iBeam]);
-      XFreeCursor(xGlobalDisplay, systemCursors[cross]);
-      XFreeCursor(xGlobalDisplay, systemCursors[moving]);
-      XFreeCursor(xGlobalDisplay, systemCursors[sizeNESW]);
-      XFreeCursor(xGlobalDisplay, systemCursors[sizeNS]);
-      XFreeCursor(xGlobalDisplay, systemCursors[sizeNWSE]);
-      XFreeCursor(xGlobalDisplay, systemCursors[sizeWE]);
-      XFreeCursor(xGlobalDisplay, systemCursors[hand]);
-      XFreeCursor(xGlobalDisplay, systemCursors[arrow]);
-
+      if(xGlobalDisplay)
+      {
+         XFreeCursor(xGlobalDisplay, systemCursors[iBeam]);
+         XFreeCursor(xGlobalDisplay, systemCursors[cross]);
+         XFreeCursor(xGlobalDisplay, systemCursors[moving]);
+         XFreeCursor(xGlobalDisplay, systemCursors[sizeNESW]);
+         XFreeCursor(xGlobalDisplay, systemCursors[sizeNS]);
+         XFreeCursor(xGlobalDisplay, systemCursors[sizeNWSE]);
+         XFreeCursor(xGlobalDisplay, systemCursors[sizeWE]);
+         XFreeCursor(xGlobalDisplay, systemCursors[hand]);
+         XFreeCursor(xGlobalDisplay, systemCursors[arrow]);
+      }
       delete clipBoardData;
 
       //XPutBackEvent(xGlobalDisplay, &e);
@@ -1630,9 +1632,9 @@ class XInterface : Interface
          XCloseIM(im);
          im = null;
       }
-      XCloseDisplay(xGlobalDisplay);
+      if(xGlobalDisplay) XCloseDisplay(xGlobalDisplay);
       xGlobalDisplay = null;
-      guiApp.xGlobalDisplay = null;
+      if(guiApp) guiApp.xGlobalDisplay = null;
 
       if(joystickFD[0] != -1) close(joystickFD[0]);
       if(joystickFD[1] != -1) close(joystickFD[1]);
