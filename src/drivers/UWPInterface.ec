@@ -113,12 +113,12 @@ class UWPInterface : Interface
       // guiApp.WaitEvent();
    }
 
-   void Lock(Window window)
+   void Lock(RootWindow window)
    {
 
    }
 
-   void Unlock(Window window)
+   void Unlock(RootWindow window)
    {
 
    }
@@ -147,42 +147,42 @@ class UWPInterface : Interface
       return result;
    }
 
-   // --- Window Creation ---
-   void * CreateRootWindow(Window window)
+   // --- RootWindow Creation ---
+   void * CreateRootWindow(RootWindow window)
    {
       return (void *)1;
    }
 
-   void DestroyRootWindow(Window window)
+   void DestroyRootWindow(RootWindow window)
    {
 
    }
 
-   // -- Window manipulation ---
+   // -- RootWindow manipulation ---
 
-   void SetRootWindowCaption(Window window, const char * name)
+   void SetRootWindowCaption(RootWindow window, const char * name)
    {
    }
 
-   void PositionRootWindow(Window window, int x, int y, int w, int h, bool move, bool resize)
+   void PositionRootWindow(RootWindow window, int x, int y, int w, int h, bool move, bool resize)
    {
    }
 
-   void OrderRootWindow(Window window, bool topMost)
-   {
-
-   }
-
-   void SetRootWindowColor(Window window)
+   void OrderRootWindow(RootWindow window, bool topMost)
    {
 
    }
 
-   void OffsetWindow(Window window, int * x, int * y)
+   void SetRootWindowColor(RootWindow window)
+   {
+
+   }
+
+   void OffsetWindow(RootWindow window, int * x, int * y)
    {
    }
 
-   void UpdateRootWindow(Window window)
+   void UpdateRootWindow(RootWindow window)
    {
 
       if(!window.parent || !window.parent.display)
@@ -206,28 +206,28 @@ class UWPInterface : Interface
    }
 
 
-   void SetRootWindowState(Window window, WindowState state, bool visible)
+   void SetRootWindowState(RootWindow window, WindowState state, bool visible)
    {
    }
 
-   void FlashRootWindow(Window window)
+   void FlashRootWindow(RootWindow window)
    {
 
    }
 
-   void ActivateRootWindow(Window window)
+   void ActivateRootWindow(RootWindow window)
    {
 
    }
 
    // --- Mouse-based window movement ---
 
-   void StartMoving(Window window, int x, int y, bool fromKeyBoard)
+   void StartMoving(RootWindow window, int x, int y, bool fromKeyBoard)
    {
 
    }
 
-   void StopMoving(Window window)
+   void StopMoving(RootWindow window)
    {
 
    }
@@ -246,17 +246,17 @@ class UWPInterface : Interface
       mouseY = y;
    }
 
-   void SetMouseRange(Window window, Box box)
+   void SetMouseRange(RootWindow window, Box box)
    {
    }
 
-   void SetMouseCapture(Window window)
+   void SetMouseCapture(RootWindow window)
    {
    }
 
    // -- Mouse cursor ---
 
-   void SetMouseCursor(Window window, int cursor)
+   void SetMouseCursor(RootWindow window, int cursor)
    {
       if(cursor == -1)
       {
@@ -268,8 +268,8 @@ class UWPInterface : Interface
 
    void SetCaret(int x, int y, int size)
    {
-      Window caretOwner = guiApp.caretOwner;
-      Window window = caretOwner ? caretOwner.rootWindow : null;
+      RootWindow caretOwner = guiApp.caretOwner;
+      RootWindow window = caretOwner ? caretOwner.rootWindow : null;
       if(window && window.windowData)
       {
       }
@@ -331,7 +331,7 @@ class UWPInterface : Interface
 
    // --- State based input ---
 
-   bool AcquireInput(Window window, bool state)
+   bool AcquireInput(RootWindow window, bool state)
    {
       acquiredInputMode = state;
       if(acquiredInputMode)
@@ -380,7 +380,7 @@ class UWPInterface : Interface
       // timerDelay = hertz ? (1000000 / hertz) : MAXINT;
    }
 
-   bool SetIcon(Window window, BitmapResource resource)
+   bool SetIcon(RootWindow window, BitmapResource resource)
    {
       if(resource)
       {

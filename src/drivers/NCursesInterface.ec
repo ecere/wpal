@@ -34,7 +34,7 @@ static class Message : struct
 
 static OldList messages;
 
-static Window nCursesDesktop;
+static RootWindow nCursesDesktop;
 static Point mousePosition;
 static Box mouseRange;
 static int caretX, caretY, caretVisible;
@@ -454,12 +454,12 @@ class NCursesInterface : Interface
       ncursesMutex.Wait();
    }
 
-   void Lock(Window window)
+   void Lock(RootWindow window)
    {
 
    }
 
-   void Unlock(Window window)
+   void Unlock(RootWindow window)
    {
 
    }
@@ -482,7 +482,7 @@ class NCursesInterface : Interface
       *fullScreen = true;
    }
 
-   void OffsetWindow(Window window, int * x, int * y)
+   void OffsetWindow(RootWindow window, int * x, int * y)
    {
 
    }
@@ -500,8 +500,8 @@ class NCursesInterface : Interface
       return false;
    }
 
-   // --- Window Creation ---
-   void * CreateRootWindow(Window window)
+   // --- RootWindow Creation ---
+   void * CreateRootWindow(RootWindow window)
    {
       nCursesDesktop = window;
       return (void *) stdscr;
@@ -511,7 +511,7 @@ class NCursesInterface : Interface
    {
    }
 
-   // -- Window manipulation ---
+   // -- RootWindow manipulation ---
 
    void SetRootWindowCaption(void * windowHandle, const char * name)
    {
@@ -525,7 +525,7 @@ class NCursesInterface : Interface
    {
    }
 
-   void SetRootWindowColor(Window window)
+   void SetRootWindowColor(RootWindow window)
    {
    }
 
@@ -533,7 +533,7 @@ class NCursesInterface : Interface
    {
    }
 
-   void SetRootWindowState(Window window, int state, bool visible)
+   void SetRootWindowState(RootWindow window, int state, bool visible)
    {
 
    }
@@ -566,7 +566,7 @@ class NCursesInterface : Interface
       mousePosition.y = y;
    }
 
-   void SetMouseRange(Window window, Box box)
+   void SetMouseRange(RootWindow window, Box box)
    {
       if(box != null)
       {
@@ -586,7 +586,7 @@ class NCursesInterface : Interface
 
    // -- Mouse cursor ---
 
-   void SetMouseCursor(Window window, int cursor)
+   void SetMouseCursor(RootWindow window, int cursor)
    {
 
    }

@@ -83,7 +83,7 @@ static bool isFullScreen;
 
 static EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userData)
 {
-   Window window = guiApp.desktop;
+   RootWindow window = guiApp.desktop;
    Modifiers mods { };
    int methodID;
    bool result = true;
@@ -167,7 +167,7 @@ static Array<TouchPointerInfo> buildPointerInfo(const EmscriptenTouchEvent * eve
 
 static EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userData)
 {
-   Window window = guiApp.desktop;
+   RootWindow window = guiApp.desktop;
    Modifiers mods { };
    const EmscriptenTouchPoint * t1 = &e->touches[0];
    int methodID;
@@ -243,7 +243,7 @@ static EM_BOOL wheel_callback(int eventType, const EmscriptenWheelEvent *e, void
 #ifdef EMSCRIPTEN_DEBUG
    printf("wheel_callback\n");
 #endif
-   Window window = guiApp.desktop;
+   RootWindow window = guiApp.desktop;
    Key key = (e->deltaY < 0 || e->deltaX < 0) ? wheelUp : wheelDown;
 
    key.alt = e->mouse.altKey ? true : false;
@@ -269,7 +269,7 @@ static bool keyStatus[KeyCode];
 // Returning 0 signals that the event was not consumed by the code, and will allow the event to pass on and bubble up normally.
 EM_BOOL key_callback(int eventType, const EmscriptenKeyboardEvent *e, void *userData)
 {
-   Window window = guiApp.desktop;
+   RootWindow window = guiApp.desktop;
    Key key = 0;
    bool result = 0;
 #ifdef EMSCRIPTEN_DEBUG
@@ -509,7 +509,7 @@ EM_BOOL pointerlockchange_callback(int eventType, const EmscriptenPointerlockCha
    }
    else
    {
-      Window w = guiApp.desktop;
+      RootWindow w = guiApp.desktop;
       if(w && w.children.first) w = w.children.first;
       guiApp.acquiredWindow = w;
       guiApp.acquiredWindow.acquiredInput = true;
@@ -838,12 +838,12 @@ class EmscriptenInterface : Interface
 
    }
 
-   void ::Lock(Window window)
+   void ::Lock(RootWindow window)
    {
 
    }
 
-   void ::Unlock(Window window)
+   void ::Unlock(RootWindow window)
    {
 
    }
@@ -881,63 +881,63 @@ class EmscriptenInterface : Interface
    }
 
 
-   // --- Window Creation ---
+   // --- RootWindow Creation ---
 
-   void * ::CreateRootWindow(Window window)
+   void * ::CreateRootWindow(RootWindow window)
    {
 
       return (void *)(uintptr)1;
    }
 
-   void ::DestroyRootWindow(Window window)
+   void ::DestroyRootWindow(RootWindow window)
    {
 
    }
 
 
-   // --- Window manipulation ---
+   // --- RootWindow manipulation ---
 
-   void ::SetRootWindowCaption(Window window, const char * name)
+   void ::SetRootWindowCaption(RootWindow window, const char * name)
    {
 
    }
 
-   void ::PositionRootWindow(Window window, int x, int y, int w, int h, bool move, bool resize)
+   void ::PositionRootWindow(RootWindow window, int x, int y, int w, int h, bool move, bool resize)
    {
 
    }
 
-   void ::OffsetWindow(Window window, int * x, int * y)
+   void ::OffsetWindow(RootWindow window, int * x, int * y)
    {
 
    }
 
-   void ::UpdateRootWindow(Window window)
+   void ::UpdateRootWindow(RootWindow window)
    {
 
    }
 
-   void ::SetRootWindowState(Window window, WindowState state, bool visible)
+   void ::SetRootWindowState(RootWindow window, WindowState state, bool visible)
    {
 
    }
 
-   void ::ActivateRootWindow(Window window)
+   void ::ActivateRootWindow(RootWindow window)
    {
 
    }
 
-   void ::OrderRootWindow(Window window, bool topMost)
+   void ::OrderRootWindow(RootWindow window, bool topMost)
    {
 
    }
 
-   void ::SetRootWindowColor(Window window)
+   void ::SetRootWindowColor(RootWindow window)
    {
 
    }
 
-   void ::FlashRootWindow(Window window)
+   void ::FlashRootWindow(RootWindow window)
    {
 
    }
@@ -945,12 +945,12 @@ class EmscriptenInterface : Interface
 
    // --- Mouse-based window movement ---
 
-   void ::StartMoving(Window window, int x, int y, bool fromKeyBoard)
+   void ::StartMoving(RootWindow window, int x, int y, bool fromKeyBoard)
    {
 
    }
 
-   void ::StopMoving(Window window)
+   void ::StopMoving(RootWindow window)
    {
 
    }
@@ -969,12 +969,12 @@ class EmscriptenInterface : Interface
 
    }
 
-   void ::SetMouseRange(Window window, Box box)
+   void ::SetMouseRange(RootWindow window, Box box)
    {
 
    }
 
-   void ::SetMouseCapture(Window window)
+   void ::SetMouseCapture(RootWindow window)
    {
 
    }
@@ -982,7 +982,7 @@ class EmscriptenInterface : Interface
 
    // --- Mouse cursor ---
 
-   void ::SetMouseCursor(Window window, SystemCursor cursor)
+   void ::SetMouseCursor(RootWindow window, SystemCursor cursor)
    {
 
    }
@@ -1029,7 +1029,7 @@ class EmscriptenInterface : Interface
 
    // --- State based input ---
 
-   bool ::AcquireInput(Window window, bool state)
+   bool ::AcquireInput(RootWindow window, bool state)
    {
       if(state)
          emscripten_request_pointerlock(target, 1);
@@ -1061,13 +1061,13 @@ class EmscriptenInterface : Interface
       return keyStatus[key];
    }
 
-   bool ::SetIcon(Window window, BitmapResource icon)
+   bool ::SetIcon(RootWindow window, BitmapResource icon)
    {
 
       return false;
    }
 
-   void ::GetScreenArea(Window window, Box box)
+   void ::GetScreenArea(RootWindow window, Box box)
    {
    }
 }

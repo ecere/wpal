@@ -272,12 +272,12 @@ class Win32ConsoleInterface : Interface
       }
    }
 
-   void Lock(Window window)
+   void Lock(RootWindow window)
    {
 
    }
 
-   void Unlock(Window window)
+   void Unlock(RootWindow window)
    {
 
    }
@@ -324,8 +324,8 @@ class Win32ConsoleInterface : Interface
       return false;
    }
 
-   // --- Window Creation ---
-   void * CreateRootWindow(Window window)
+   // --- RootWindow Creation ---
+   void * CreateRootWindow(RootWindow window)
    {
       return (void *) hStdout;
    }
@@ -334,7 +334,7 @@ class Win32ConsoleInterface : Interface
    {
    }
 
-   // -- Window manipulation ---
+   // -- RootWindow manipulation ---
 
    void SetRootWindowCaption(void * windowHandle, const char * name)
    {
@@ -350,7 +350,7 @@ class Win32ConsoleInterface : Interface
    {
    }
 
-   void SetRootWindowColor(Window window)
+   void SetRootWindowColor(RootWindow window)
    {
    }
 
@@ -395,7 +395,7 @@ class Win32ConsoleInterface : Interface
       mousePosition.y = y;
    }
 
-   void SetMouseRange(Window window, Box box)
+   void SetMouseRange(RootWindow window, Box box)
    {
       if(box != null)
       {
@@ -415,7 +415,7 @@ class Win32ConsoleInterface : Interface
 
    // -- Mouse cursor ---
 
-   void SetMouseCursor(Window window, int cursor)
+   void SetMouseCursor(RootWindow window, int cursor)
    {
 
    }

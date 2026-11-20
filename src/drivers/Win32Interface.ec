@@ -201,7 +201,7 @@ static void SmartShowWindow(HWND windowHandle, WindowState state, bool doActivat
    ShowWindow(windowHandle, showCmd);
 }
 
-void AeroSnapPosition(Window window, int x, int y, int w, int h)
+void AeroSnapPosition(RootWindow window, int x, int y, int w, int h)
 {
    int oldX = window.absPosition.x;
 
@@ -254,7 +254,7 @@ void AeroSnapPosition(Window window, int x, int y, int w, int h)
    window.ExternalPosition(x, y, w, h);
 }
 
-void Win32UpdateStyle(Window window)
+void Win32UpdateStyle(RootWindow window)
 {
    DWORD style = GetWindowLong(window.windowHandle, GWL_EXSTYLE);
    if(window.showInTaskBar)
@@ -400,7 +400,7 @@ class Win32Interface : Interface
       /// PRIVATE UTILITY FUNCTIONS /////////////
    ****************************************************************************/
    // --- Keyboard Input ---
-   bool ::ProcessKeyMessage(Window window, DWORD msg, WPARAM wParam, LPARAM lParam, unichar ch)
+   bool ::ProcessKeyMessage(RootWindow window, DWORD msg, WPARAM wParam, LPARAM lParam, unichar ch)
    {
       bool result = true;
       static Key code2 = 0;
@@ -549,13 +549,13 @@ class Win32Interface : Interface
       return result;
    }
 
-   // --- Window procedure ---
+   // --- RootWindow procedure ---
    DWORD CALLBACK ::ApplicationWindow(HWND windowHandle, UINT msg, WPARAM wParam, LPARAM lParam)
    {
 #ifdef _WIN64
-      Window window = (Window)GetWindowLongPtr(windowHandle, GWLP_USERDATA);
+      RootWindow window = (Window)GetWindowLongPtr(windowHandle, GWLP_USERDATA);
 #else
-      Window window = (Window)GetWindowLong(windowHandle, GWL_USERDATA);
+      RootWindow window = (Window)GetWindowLong(windowHandle, GWL_USERDATA);
 #endif
       static Point lastPos;
       if(window)
@@ -576,7 +576,7 @@ class Win32Interface : Interface
                {
                   if(wParam)
                   {
-                     Window modalRoot = window.FindModal();
+                     RootWindow modalRoot = window.FindModal();
 
                      HWND modalWindow = modalRoot ? modalRoot.windowHandle : null;
 
@@ -620,8 +620,8 @@ class Win32Interface : Interface
                         windowLong = (void *)ApplicationWindow;
                      else
                      {
-                        Window master = window.master;
-                        Window rootWindow = master.rootWindow;
+                        RootWindow master = window.master;
+                        RootWindow rootWindow = master.rootWindow;
                         if(rootWindow && rootWindow.displaySystem && rootWindow.displaySystem.driver == class(OpenGLDisplayDriver))
                            windowLong = (void *)ApplicationWindow;
                      }
@@ -824,7 +824,7 @@ class Win32Interface : Interface
                if(window.composing && msg == WM_CHAR)
                {
                   COMPOSITIONFORM form;
-                  Window caretOwner = guiApp.caretOwner;
+                  RootWindow caretOwner = guiApp.caretOwner;
 #if !defined(__UWP__)
                   if(caretOwner)
                   {
@@ -851,7 +851,7 @@ class Win32Interface : Interface
             case WM_IME_STARTCOMPOSITION:
             {
                COMPOSITIONFORM form;
-               Window caretOwner = guiApp.caretOwner;
+               RootWindow caretOwner = guiApp.caretOwner;
                if(caretOwner)
                {
 #if !defined(__UWP__)
@@ -1284,12 +1284,12 @@ class Win32Interface : Interface
    /****************************************************************************
       /// INTEGRATION FUNCTIONALITY /////////////
    ****************************************************************************/
-   bool eisWIN32ProcessKey(Window window, DWORD msg, DWORD wParam, DWORD lParam, byte ch)
+   bool eisWIN32ProcessKey(RootWindow window, DWORD msg, DWORD wParam, DWORD lParam, byte ch)
    {
       return ProcessKeyMessage(window, msg, wParam, lParam, ch);
    }
 
-   HWND eisWIN32GetWindowHandle(Window window)
+   HWND eisWIN32GetWindowHandle(RootWindow window)
    {
       return window.windowHandle ? window.windowHandle : window.rootWindow.windowHandle;
    }
@@ -1408,12 +1408,12 @@ class Win32Interface : Interface
       MsgWaitForMultipleObjects(1, (void **)guiApp.semaphore, FALSE, (uint)(1000 / 18.2) /*INFINITE*/, QS_ALLINPUT);
    }
 
-   void Lock(Window window)
+   void Lock(RootWindow window)
    {
 
    }
 
-   void Unlock(Window window)
+   void Unlock(RootWindow window)
    {
 
    }
@@ -1508,8 +1508,8 @@ class Win32Interface : Interface
       return result;
    }
 
-   // --- Window Creation ---
-   void * CreateRootWindow(Window window)
+   // --- RootWindow Creation ---
+   void * CreateRootWindow(RootWindow window)
    {
       HWND windowHandle;
       uint16 * text = UTF8toUTF16(window.text, null);
@@ -1530,7 +1530,7 @@ class Win32Interface : Interface
          DWORD style = 0;
          DWORD exStyle = 0;
          HWND parentWindow = null; //HWND_DESKTOP; // we get different behaviors with desktop...
-         Window master = window.master, rootWindow = (master && master != guiApp.desktop) ? master.rootWindow : null;
+         RootWindow master = window.master, rootWindow = (master && master != guiApp.desktop) ? master.rootWindow : null;
          if(window.style.stayOnTop)
             exStyle |= WS_EX_TOPMOST;
 
@@ -1592,7 +1592,7 @@ class Win32Interface : Interface
       return windowHandle;
    }
 
-   void DestroyRootWindow(Window window)
+   void DestroyRootWindow(RootWindow window)
    {
       HICON oldIcon;
       int c, lockCount = guiApp.lockMutex.lockCount;
@@ -1622,9 +1622,9 @@ class Win32Interface : Interface
       window.windowHandle = null;
    }
 
-   // -- Window manipulation ---
+   // -- RootWindow manipulation ---
 
-   void SetRootWindowCaption(Window window, const char * name)
+   void SetRootWindowCaption(RootWindow window, const char * name)
    {
       uint16 * text = UTF8toUTF16(name, null);
       guiApp.Unlock();
@@ -1633,7 +1633,7 @@ class Win32Interface : Interface
       delete text;
    }
 
-   void PositionRootWindow(Window window, int x, int y, int w, int h, bool move, bool resize)
+   void PositionRootWindow(RootWindow window, int x, int y, int w, int h, bool move, bool resize)
    {
       int flags = SWP_NOZORDER|SWP_NOACTIVATE|SWP_NOCOPYBITS|SWP_NOSENDCHANGING;
 
@@ -1657,13 +1657,13 @@ class Win32Interface : Interface
          SetWindowPos(window.windowHandle, null, x, y, w, h, flags);
    }
 
-   void OrderRootWindow(Window window, bool topMost)
+   void OrderRootWindow(RootWindow window, bool topMost)
    {
       SetWindowPos(window.windowHandle, topMost ? HWND_TOPMOST : HWND_NOTOPMOST, 0,0,0,0,
          SWP_NOACTIVATE|SWP_NOCOPYBITS|SWP_NOMOVE|SWP_NOSIZE|SWP_NOREDRAW);
    }
 
-   void SetRootWindowColor(Window window)
+   void SetRootWindowColor(RootWindow window)
    {
       if(window.alphaBlend && window.display.pixelFormat == pixelFormat888)
       {
@@ -1684,7 +1684,7 @@ class Win32Interface : Interface
       }
    }
 
-   void OffsetWindow(Window window, int * x, int * y)
+   void OffsetWindow(RootWindow window, int * x, int * y)
    {
       if(window.systemParent)
       {
@@ -1695,12 +1695,12 @@ class Win32Interface : Interface
       }
    }
 
-   void UpdateRootWindow(Window window)
+   void UpdateRootWindow(RootWindow window)
    {
       UpdateWindow(window.windowHandle);
    }
 
-   void SetRootWindowState(Window window, WindowState state, bool visible)
+   void SetRootWindowState(RootWindow window, WindowState state, bool visible)
    {
       if(visible)
       {
@@ -1724,17 +1724,17 @@ class Win32Interface : Interface
       }
    }
 
-   void ActivateRootWindow(Window window)
+   void ActivateRootWindow(RootWindow window)
    {
       if(!externalDisplayChange)
          SetForegroundWindow(window.windowHandle);
    }
 
-   void FlashRootWindow(Window window)
+   void FlashRootWindow(RootWindow window)
    {
       HWND hwnd = window.windowHandle;
       FLASHWINFO flashInfo = { 0 };
-      Window master = window.master, rootWindow = (master && master != guiApp.desktop) ? master.rootWindow : null;
+      RootWindow master = window.master, rootWindow = (master && master != guiApp.desktop) ? master.rootWindow : null;
       if(!window.style.showInTaskBar && rootWindow && (window._isModal || window.style.interim))
          hwnd = rootWindow.windowHandle;
 
@@ -1748,7 +1748,7 @@ class Win32Interface : Interface
    }
 
    // --- Mouse-based window movement ---
-   void StartMoving(Window window, int x, int y, bool fromKeyBoard)
+   void StartMoving(RootWindow window, int x, int y, bool fromKeyBoard)
    {
       if(!fullScreenMode && !window.systemParent)
          // Commented out for Chess game because AI thread takes over the moving of main window... Still required?
@@ -1763,7 +1763,7 @@ class Win32Interface : Interface
       }
    }
 
-   void StopMoving(Window window)
+   void StopMoving(RootWindow window)
    {
       if(!fullScreenMode && !window.systemParent)
          SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_NORMAL);
@@ -1784,12 +1784,12 @@ class Win32Interface : Interface
       SetCursorPos(x, y);
    }
 
-   void SetMouseRange(Window window, Box box)
+   void SetMouseRange(RootWindow window, Box box)
    {
       ClipCursor((RECT *) box);
    }
 
-   void SetMouseCapture(Window window)
+   void SetMouseCapture(RootWindow window)
    {
       if(window)
          SetCapture(window.windowHandle);
@@ -1799,7 +1799,7 @@ class Win32Interface : Interface
 
    // -- Mouse cursor ---
 
-   void SetMouseCursor(Window window, SystemCursor cursor)
+   void SetMouseCursor(RootWindow window, SystemCursor cursor)
    {
       if(lastCursor != cursor)
       {
@@ -1895,7 +1895,7 @@ class Win32Interface : Interface
 
    // --- State based input ---
 
-   bool AcquireInput(Window window, bool state)
+   bool AcquireInput(RootWindow window, bool state)
    {
    #ifndef ECERE_NODINPUT
       if(dInput || InitDirectInput())
@@ -1939,9 +1939,9 @@ class Win32Interface : Interface
       if(dims.lZ)
       {
 #ifdef _WIN64
-         Window window = (Window)GetWindowLongPtr(acquiredWindow, GWLP_USERDATA);
+         RootWindow window = (Window)GetWindowLongPtr(acquiredWindow, GWLP_USERDATA);
 #else
-         Window window = (Window)GetWindowLong(acquiredWindow, GWL_USERDATA);
+         RootWindow window = (Window)GetWindowLong(acquiredWindow, GWL_USERDATA);
 #endif
          ProcessKeyMessage(window, WM_MOUSEWHEEL, ((uint16)(short)dims.lZ) << 16, 0, 0);
       }
@@ -2017,7 +2017,7 @@ class Win32Interface : Interface
       return keyState;
    }
 
-   bool SetIcon(Window window, BitmapResource resource)
+   bool SetIcon(RootWindow window, BitmapResource resource)
    {
       HICON icon = null;
       HICON oldIcon = (HICON)SendMessage(window.windowHandle, WM_GETICON, ICON_BIG, 0);
@@ -2025,10 +2025,10 @@ class Win32Interface : Interface
       // Dialogs Inherit master's icon if none set
       if(!window.style.showInTaskBar && window.hasClose)
       {
-         Window master = window.master;
+         RootWindow master = window.master;
          while(master && !resource)
          {
-            Window rootWindow = (master && master != guiApp.desktop) ? master.rootWindow : null;
+            RootWindow rootWindow = (master && master != guiApp.desktop) ? master.rootWindow : null;
             if(rootWindow && rootWindow.icon)
                resource = rootWindow.icon;
             else
@@ -2116,7 +2116,7 @@ class Win32Interface : Interface
       return true;
    }
 
-   void ::GetScreenArea(Window window, Box box)
+   void ::GetScreenArea(RootWindow window, Box box)
    {
       HMONITOR monitor = MonitorFromWindow(window.windowHandle, MONITOR_DEFAULTTONEAREST);
       HMONITOR taskBarMonitor = MonitorFromWindow(startBar, MONITOR_DEFAULTTONEAREST);

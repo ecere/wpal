@@ -846,12 +846,12 @@ class AndroidInterface : Interface
       // guiApp.WaitEvent();
    }
 
-   void Lock(Window window)
+   void Lock(RootWindow window)
    {
 
    }
 
-   void Unlock(Window window)
+   void Unlock(RootWindow window)
    {
 
    }
@@ -880,45 +880,45 @@ class AndroidInterface : Interface
       return result;
    }
 
-   // --- Window Creation ---
-   void * CreateRootWindow(Window window)
+   // --- RootWindow Creation ---
+   void * CreateRootWindow(RootWindow window)
    {
       return androidActivity.window;
    }
 
-   void DestroyRootWindow(Window window)
+   void DestroyRootWindow(RootWindow window)
    {
 
    }
 
-   // -- Window manipulation ---
+   // -- RootWindow manipulation ---
 
-   void SetRootWindowCaption(Window window, const char * name)
+   void SetRootWindowCaption(RootWindow window, const char * name)
    {
 
    }
 
-   void PositionRootWindow(Window window, int x, int y, int w, int h, bool move, bool resize)
+   void PositionRootWindow(RootWindow window, int x, int y, int w, int h, bool move, bool resize)
    {
 
    }
 
-   void OrderRootWindow(Window window, bool topMost)
+   void OrderRootWindow(RootWindow window, bool topMost)
    {
 
    }
 
-   void SetRootWindowColor(Window window)
+   void SetRootWindowColor(RootWindow window)
    {
 
    }
 
-   void OffsetWindow(Window window, int * x, int * y)
+   void OffsetWindow(RootWindow window, int * x, int * y)
    {
 
    }
 
-   void UpdateRootWindow(Window window)
+   void UpdateRootWindow(RootWindow window)
    {
       if(!window.parent || !window.parent.display)
       {
@@ -941,28 +941,28 @@ class AndroidInterface : Interface
    }
 
 
-   void SetRootWindowState(Window window, WindowState state, bool visible)
+   void SetRootWindowState(RootWindow window, WindowState state, bool visible)
    {
    }
 
-   void FlashRootWindow(Window window)
+   void FlashRootWindow(RootWindow window)
    {
 
    }
 
-   void ActivateRootWindow(Window window)
+   void ActivateRootWindow(RootWindow window)
    {
 
    }
 
    // --- Mouse-based window movement ---
 
-   void StartMoving(Window window, int x, int y, bool fromKeyBoard)
+   void StartMoving(RootWindow window, int x, int y, bool fromKeyBoard)
    {
 
    }
 
-   void StopMoving(Window window)
+   void StopMoving(RootWindow window)
    {
 
    }
@@ -981,17 +981,17 @@ class AndroidInterface : Interface
       mouseY = y;
    }
 
-   void SetMouseRange(Window window, Box box)
+   void SetMouseRange(RootWindow window, Box box)
    {
    }
 
-   void SetMouseCapture(Window window)
+   void SetMouseCapture(RootWindow window)
    {
    }
 
    // -- Mouse cursor ---
 
-   void SetMouseCursor(Window window, int cursor)
+   void SetMouseCursor(RootWindow window, int cursor)
    {
       if(cursor == -1)
       {
@@ -1003,8 +1003,8 @@ class AndroidInterface : Interface
 
    void SetCaret(int x, int y, int size)
    {
-      Window caretOwner = guiApp.caretOwner;
-      Window window = caretOwner ? caretOwner.rootWindow : null;
+      RootWindow caretOwner = guiApp.caretOwner;
+      RootWindow window = caretOwner ? caretOwner.rootWindow : null;
       if(window && window.windowData)
       {
       }
@@ -1066,7 +1066,7 @@ class AndroidInterface : Interface
 
    // --- State based input ---
 
-   bool AcquireInput(Window window, bool state)
+   bool AcquireInput(RootWindow window, bool state)
    {
       return false;
    }
@@ -1096,7 +1096,7 @@ class AndroidInterface : Interface
       // timerDelay = hertz ? (1000000 / hertz) : MAXINT;
    }
 
-   bool SetIcon(Window window, BitmapResource resource)
+   bool SetIcon(RootWindow window, BitmapResource resource)
    {
       if(resource)
       {
@@ -1346,7 +1346,7 @@ class AndroidActivity : AndroidAppGlue
    int onInputEvent(AInputEvent* event)
    {
       static Time lastTime = 0;
-      Window window = guiApp.desktop;
+      RootWindow window = guiApp.desktop;
       uint type = AInputEvent_getType(event);
       if(type == AINPUT_EVENT_TYPE_MOTION)
       {
