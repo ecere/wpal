@@ -374,12 +374,12 @@ class LuminInterface : Interface
       // guiApp.WaitEvent();
    }
 
-   void Lock(Window window)
+   void Lock(RootWindow window)
    {
       ML_LOG(Error, "LuminInterface::Lock()");
    }
 
-   void Unlock(Window window)
+   void Unlock(RootWindow window)
    {
       ML_LOG(Error, "LuminInterface::Unlock()");
    }
@@ -408,42 +408,42 @@ class LuminInterface : Interface
       return result;
    }
 
-   // --- Window Creation ---
-   void * CreateRootWindow(Window window)
+   // --- RootWindow Creation ---
+   void * CreateRootWindow(RootWindow window)
    {
       return (void *)1;
    }
 
-   void DestroyRootWindow(Window window)
+   void DestroyRootWindow(RootWindow window)
    {
       ML_LOG(Error, "LuminInterface::DestroyRootWindow()");
    }
 
-   // -- Window manipulation ---
+   // -- RootWindow manipulation ---
 
-   void SetRootWindowCaption(Window window, const char * name)
+   void SetRootWindowCaption(RootWindow window, const char * name)
    {
    }
 
-   void PositionRootWindow(Window window, int x, int y, int w, int h, bool move, bool resize)
+   void PositionRootWindow(RootWindow window, int x, int y, int w, int h, bool move, bool resize)
    {
    }
 
-   void OrderRootWindow(Window window, bool topMost)
+   void OrderRootWindow(RootWindow window, bool topMost)
    {
       ML_LOG(Error, "LuminInterface::OrderRootWindow()");
    }
 
-   void SetRootWindowColor(Window window)
+   void SetRootWindowColor(RootWindow window)
    {
       ML_LOG(Error, "LuminInterface::SetRootWindowColor()");
    }
 
-   void OffsetWindow(Window window, int * x, int * y)
+   void OffsetWindow(RootWindow window, int * x, int * y)
    {
    }
 
-   void UpdateRootWindow(Window window)
+   void UpdateRootWindow(RootWindow window)
    {
       ML_LOG(Error, "LuminInterface::UpdateRootWindow()");
       if(!window.parent || !window.parent.display)
@@ -467,28 +467,28 @@ class LuminInterface : Interface
    }
 
 
-   void SetRootWindowState(Window window, WindowState state, bool visible)
+   void SetRootWindowState(RootWindow window, WindowState state, bool visible)
    {
    }
 
-   void FlashRootWindow(Window window)
+   void FlashRootWindow(RootWindow window)
    {
       ML_LOG(Error, "LuminInterface::FlashRootWindow()");
    }
 
-   void ActivateRootWindow(Window window)
+   void ActivateRootWindow(RootWindow window)
    {
       ML_LOG(Error, "LuminInterface::ActivateRootWindow()");
    }
 
    // --- Mouse-based window movement ---
 
-   void StartMoving(Window window, int x, int y, bool fromKeyBoard)
+   void StartMoving(RootWindow window, int x, int y, bool fromKeyBoard)
    {
       ML_LOG(Error, "LuminInterface::StartMoving()");
    }
 
-   void StopMoving(Window window)
+   void StopMoving(RootWindow window)
    {
       ML_LOG(Error, "LuminInterface::StopMoving()");
    }
@@ -507,17 +507,17 @@ class LuminInterface : Interface
       mouseY = y;
    }
 
-   void SetMouseRange(Window window, Box box)
+   void SetMouseRange(RootWindow window, Box box)
    {
    }
 
-   void SetMouseCapture(Window window)
+   void SetMouseCapture(RootWindow window)
    {
    }
 
    // -- Mouse cursor ---
 
-   void SetMouseCursor(Window window, int cursor)
+   void SetMouseCursor(RootWindow window, int cursor)
    {
       if(cursor == -1)
       {
@@ -529,8 +529,8 @@ class LuminInterface : Interface
 
    void SetCaret(int x, int y, int size)
    {
-      Window caretOwner = guiApp.caretOwner;
-      Window window = caretOwner ? caretOwner.rootWindow : null;
+      RootWindow caretOwner = guiApp.caretOwner;
+      RootWindow window = caretOwner ? caretOwner.rootWindow : null;
       if(window && window.windowData)
       {
       }
@@ -592,7 +592,7 @@ class LuminInterface : Interface
 
    // --- State based input ---
 
-   bool AcquireInput(Window window, bool state)
+   bool AcquireInput(RootWindow window, bool state)
    {
       acquiredInputMode = state;
       if(acquiredInputMode)
@@ -641,7 +641,7 @@ class LuminInterface : Interface
       // timerDelay = hertz ? (1000000 / hertz) : MAXINT;
    }
 
-   bool SetIcon(Window window, BitmapResource resource)
+   bool SetIcon(RootWindow window, BitmapResource resource)
    {
       if(resource)
       {
